@@ -1,0 +1,26 @@
+{
+  "general": {
+    "lbl_notes": "Notes",
+    "lbl_categories": "Categories",
+    "btn_reset": "Reset",
+    "btn_save": "Save"
+  },
+  "app": {
+    "tab_transactions": "Transactions",
+    "tab_summary": "Summary",
+    "tab_settings": "Settings"
+  },
+  "transaction": {
+    "lbl_transaction": "Transaction",
+    "lbl_income": "Income",
+    "lbl_expense": "Expense"
+  },
+  "transactions": {
+    "lbl_transactions": "Transactions",
+    "lbl_total_amount": "Total Amount"
+  },
+  "transactionGenerator": {
+    "lbl_title": "New Transaction",
+    "lbl_amount": "Betrag"
+  }
+}

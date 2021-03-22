@@ -1,0 +1,26 @@
+{
+  "general": {
+    "lbl_notes": "Notizen",
+    "lbl_categories": "Kategorien",
+    "btn_reset": "Zurücksetzen",
+    "btn_save": "Speichern"
+  },
+    "app": {
+    "tab_transactions": "Transaktionen",
+    "tab_summary": "Übersicht",
+    "tab_settings": "Einstellungen"
+  },
+    "transaction": {
+      "lbl_transaction": "Transaktion",
+      "lbl_income": "Einnahmen",
+      "lbl_expense": "Ausgaben"
+    },
+    "transactions": {
+        "lbl_transactions": "Transaktionen",
+        "lbl_total_amount": "Guthaben"
+    },
+    "transactionGenerator": {
+      "lbl_title": "Neue Transaktion",
+      "lbl_amount": "Betrag"
+    }
+  }
