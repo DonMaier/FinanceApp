@@ -12,7 +12,7 @@
 
     <v-list-item-action>
       <v-list-item-title
-        v-text="this.formatFloatToEuroCurrency(transaction.amount)"
+        v-text="formatFloatToEuroCurrency(transaction.amount)"
       ></v-list-item-title>
       <v-list-item-title v-if="transaction.isPositive" class="income">{{ $t('transaction.lbl_income') }}</v-list-item-title>
       <v-list-item-title v-else class="expense"> {{ $t('transaction.lbl_expense') }}</v-list-item-title>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import utilsMixin from '../mixins/utilsMixin'
+
 export default {
   name: 'Transaction',
   props: {
@@ -33,14 +35,9 @@ export default {
   components: {
     // Home,
   },
+  mixins: [utilsMixin],
   data: () => ({}),
   methods: {
-    formatFloatToEuroCurrency(number) {
-      return new Intl.NumberFormat('de-DE', {
-        style: 'currency',
-        currency: 'EUR',
-      }).format(number)
-    },
     showDetailsView() {
       this.$store.commit('setSelectedTransaction', this.transaction)
       this.$router.push(`transaction/details/${this.transaction.id}`)

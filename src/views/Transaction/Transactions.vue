@@ -5,27 +5,28 @@
         <v-row align="start" justify="center">
           <v-col align="start" class="pl-0">
             <v-btn elevation="0">
-              <v-icon> mdi-filter </v-icon>
+              <v-icon @click="openFilterDrawer()">mdi-filter</v-icon>
             </v-btn>
           </v-col>
           <v-col align="center" justify="start">
-            <div class="caption"> {{ $t('transactions.lbl_total_amount') }} </div>
+            <div class="caption">{{ $t('transactions.lbl_total_amount') }}</div>
             <div
               id="totalAmount"
               class="subtitle-1"
-              :class="setClassBasedOnAmount(totalAmount)"
-            >
-              {{ this.formatFloatToEuroCurrency(this.totalAmount) }}
+              :class="setClassBasedOnAmount(totalAmount)">
+              {{ formatFloatToEuroCurrency(this.totalAmount) }}
             </div>
           </v-col>
           <v-col align="end" class="pr-0">
             <v-btn elevation="0">
-              <v-icon @click="goToTransactionView()">mdi-plus-circle</v-icon>
+              <v-icon @click="createNewTransaction()">mdi-account</v-icon>
             </v-btn>
           </v-col>
         </v-row>
       </v-container>
     </v-app-bar>
+
+    <TransactionsFilterNavDrawer v-model="filterDrawer" />
 
     <v-list dense>
       <v-list-item-group v-model="selectedItem" color="primary">
@@ -35,66 +36,81 @@
         </template>
       </v-list-item-group>
     </v-list>
+
+  <div align="center">
+
+        <v-fab-transition>
+          <v-btn color="#dc143c" dark fab class="mr-10" @click="createNewTransaction('expense')">
+            <v-icon>mdi-minus-thick</v-icon>
+          </v-btn>
+        </v-fab-transition>
+      
+        <v-fab-transition>
+          <v-btn color="#228b22" dark fab @click="createNewTransaction('income')">
+            <v-icon>mdi-plus-thick</v-icon>
+          </v-btn>
+        </v-fab-transition>
+    </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable vue/no-unused-components */
-
-import Transaction from "../../components/Transaction";
+import TransactionsFilterNavDrawer from '../../components/TransactionsFilterNavDrawer'
+import Transaction from '../../components/Transaction'
+import utilsMixin from '../../mixins/utilsMixin'
 // import TransactionService from '../services/TransactionService'
 
 export default {
-  name: "Transactions",
+  name: 'Transactions',
   props: {},
-  data() {
-    return {
-      icon: "mdi-airplane",
-      selectedItem: null,
-      totalAmount: 0,
-    };
-  },
+  data: () => ({
+    filterDrawer: false,
+    icon: 'mdi-airplane',
+    selectedItem: null,
+    totalAmount: 0,
+  }),
   components: {
     Transaction,
+    TransactionsFilterNavDrawer,
   },
+  mixins: [utilsMixin],
   created() {
-    this.transactionArray = this.$store.getters.transactionArray;
-    this.calcTotalAmount();
+    this.transactionArray = this.$store.getters.transactionArray
+    this.calcTotalAmount()
   },
   methods: {
     calcTotalAmount() {
-      let positiveAmount = 0;
-      let negativeAmount = 0;
+      let positiveAmount = 0
+      let negativeAmount = 0
       this.transactionArray.forEach((transaction) => {
         if (transaction.isPositive) {
-          positiveAmount += transaction.amount;
+          positiveAmount += transaction.amount
         } else {
-          negativeAmount += transaction.amount;
+          negativeAmount += transaction.amount
         }
-        this.totalAmount = positiveAmount - negativeAmount;
-      });
+        this.totalAmount = positiveAmount - negativeAmount
+      })
     },
-    formatFloatToEuroCurrency(number) {
-      return new Intl.NumberFormat("de-DE", {
-        style: "currency",
-        currency: "EUR",
-      }).format(number);
-    },
-    goToTransactionView() {
-      this.$router.push("transactions/create");
+    createNewTransaction(moneyType) {
+      this.$router.push(`transactions/create/${moneyType}`)
     },
     setClassBasedOnAmount(amount) {
       switch (Math.sign(amount)) {
         case 1:
-          return "income";
+          return 'income'
         case -1:
-          return "expense";
+          return 'expense'
         default:
-          return "neutral";
+          return 'neutral'
       }
     },
+    openFilterDrawer() {
+      console.log('filterDrawer')
+      this.filterDrawer = !this.filterDrawer
+    },
   },
-};
+}
 </script>
 
 <style scoped>

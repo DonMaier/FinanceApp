@@ -9,7 +9,7 @@ export const store = new Vuex.Store({
       {
         id: 1,
         title: "Gehalt BMW",
-        amount: 105.5,
+        amount: 135.5,
         category: "Salary",
         categoryIcon: "mdi-account-cash",
         notes: "notes blabla",
@@ -75,8 +75,8 @@ export const store = new Vuex.Store({
     setSelectedTransaction(state, selectedTransaction) {
       state.selectedTransaction = selectedTransaction;
     },
-    addCategory(state, categoryArray) {
-      state.categoryArray = categoryArray;
+    addCategory(state, category) {
+      state.categoryArray = state.categoryArray.push(category);
     },
   },
   getters: {

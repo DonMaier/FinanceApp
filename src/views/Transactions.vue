@@ -15,6 +15,7 @@
 import Transaction from '../components/Transaction'
 // import TransactionService from '../services/TransactionService'
 
+
 export default {
   name: 'Transactions',
   props: {

@@ -8,8 +8,9 @@ import Settings from "../views/SettingsView/Settings.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  { path: "/", component: Transactions },
   { path: "/transactions", component: Transactions },
-  { path: "/transactions/create", component: TransactionGenerator },
+  { path: "/transactions/create/:moneyType", component: TransactionGenerator },
   { path: "/transaction/details/:id", component: TransactionDetails },
   { path: "/summary", component: Summary },
   { path: "/settings", component: Settings },
