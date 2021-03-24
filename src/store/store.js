@@ -5,33 +5,43 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
+    localeDateString: 'de-DE',
     transactionArray: [
       {
         id: 1,
         title: "Gehalt BMW",
         amount: 135.5,
-        category: "Salary",
-        categoryIcon: "mdi-account-cash",
+        category: {
+          id: 1,
+          title: 'home',
+          icon: 'mdi-home'
+        },
         notes: "notes blabla",
         isPositive: true,
         created_at: "01.03.2020",
       },
       {
         id: 2,
-        title: "Döner Kebap",
+        title: "Auto",
         amount: 30,
-        category: "Food",
-        categoryIcon: "mdi-food-variant",
+        category: {
+          id: 2,
+          title: 'car',
+          icon: 'mdi-car'
+        },
         notes: "",
         isPositive: false,
         created_at: "03.03.2020",
       },
       {
         id: 3,
-        title: "Jeans",
-        amount: 60,
-        category: "Clothes",
-        categoryIcon: "mdi-tshirt-crew",
+        title: "Döner Kebap",
+        amount: 7,
+        category: {
+          id: 3,
+          title: 'food',
+          icon: 'mdi-food'
+        },
         notes: "",
         isPositive: false,
         created_at: "05.03.2020",
@@ -40,8 +50,11 @@ export const store = new Vuex.Store({
         id: 4,
         title: "Chinesisch",
         amount: 10,
-        category: "Food",
-        categoryIcon: "mdi-food-variant",
+        category: {
+          id: 3,
+          title: 'food',
+          icon: 'mdi-food'
+        },
         notes: "",
         isPositive: false,
         created_at: "06.03.2020",
@@ -50,8 +63,11 @@ export const store = new Vuex.Store({
         id: 5,
         title: "Red Bull",
         amount: 5.5,
-        category: "Food",
-        categoryIcon: "mdi-food-variant",
+        category: {
+          id: 3,
+          title: 'food',
+          icon: 'mdi-food'
+        },
         notes: "",
         isPositive: false,
         created_at: "07.03.2020",
@@ -66,22 +82,99 @@ export const store = new Vuex.Store({
       notes: "",
       created_at: "",
     },
-    categoryArray: ["Salary", "Food", "Clothes"],
+    posCategoryArray: [
+       {
+        id: 1,
+        title: 'Savings',
+        icon: 'mdi-home'
+      },
+      {
+        id: 2,
+        title: 'car',
+        icon: 'mdi-car'
+      },
+      {
+        id: 3,
+        title: 'food',
+        icon: 'mdi-food'
+      },
+      {
+        id: 4,
+        title: 'transportation',
+        icon: 'mdi-train-car'
+      }
+      // {
+      //   id: 11,
+      //   title: 'phone',
+      //   icon: 'mdi-cellphone'
+      // }
+    ],
+    negCategoryArray: [
+      {
+       id: 1,
+       title: 'home',
+       icon: 'mdi-home'
+     },
+     {
+       id: 2,
+       title: 'car',
+       icon: 'mdi-car'
+     },
+     {
+       id: 3,
+       title: 'food',
+       icon: 'mdi-food'
+     },
+     {
+       id: 4,
+       title: 'transportation',
+       icon: 'mdi-train-car'
+     },
+     {
+       id: 5,
+       title: 'dinner',
+       icon: 'mdi-silverware-fork-knife'
+     },
+     {
+       id: 6,
+       title: 'enternainment',
+       icon: 'mdi-theater'
+     },
+     {
+       id: 7,
+       title: 'clothes',
+       icon: 'mdi-tshirt-crew'
+     }
+   ],
+   taskCreated: 'false'
   },
   mutations: {
+
+    setLocaleDateString(state, localeDateString) {
+      state.localeDateString = localeDateString;
+    },
     setTransactionArray(state, transactionArray) {
       state.transActionArray = transactionArray;
     },
     setSelectedTransaction(state, selectedTransaction) {
       state.selectedTransaction = selectedTransaction;
     },
-    addCategory(state, category) {
-      state.categoryArray = state.categoryArray.push(category);
+    addTransaction(state, transaction) {
+      state.transactionArray.push(transaction);
     },
+    addCategory(state, category) {
+      state.categoryArray.push(category);
+    },
+    setTaskCreated(state, bool) {
+      state.taskCreated = bool;
+    }
   },
   getters: {
+    localeDateString: (state) => state.localeDateString,
     transactionArray: (state) => state.transactionArray,
     selectedTransaction: (state) => state.selectedTransaction,
-    categoryArray: (state) => state.categoryArray,
+    posCategoryArray: (state) => state.posCategoryArray,
+    negCategoryArray: (state) => state.negCategoryArray,
+    taskCreated: (state) => state.taskCreated
   },
 });

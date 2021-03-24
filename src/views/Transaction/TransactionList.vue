@@ -1,7 +1,8 @@
 <template>
   <div>
+    <TransactionsFilterNavDrawer v-model="filterDrawer" />
     <v-app-bar app>
-      <v-container fill-height fluid>
+      <v-container>
         <v-row align="start" justify="center">
           <v-col align="start" class="pl-0">
             <v-btn elevation="0">
@@ -13,7 +14,8 @@
             <div
               id="totalAmount"
               class="subtitle-1"
-              :class="setClassBasedOnAmount(totalAmount)">
+              :class="setClassBasedOnAmount(totalAmount)"
+            >
               {{ formatFloatToEuroCurrency(this.totalAmount) }}
             </div>
           </v-col>
@@ -25,32 +27,52 @@
         </v-row>
       </v-container>
     </v-app-bar>
+    <v-virtual-scroll
+      height="490px"
+      item-height="60"
+      :items="transactionArray"
+      class="padding-zero"
+    >
 
-    <TransactionsFilterNavDrawer v-model="filterDrawer" />
+      <template v-slot:default="{ item }">
+        <Transaction :transaction="item" :key="item.title" />
+        <v-divider :key="'divider-' + item.title"></v-divider>
+      </template>
 
-    <v-list dense>
-      <v-list-item-group v-model="selectedItem" color="primary">
-        <template v-for="transaction in transactionArray">
-          <Transaction :transaction="transaction" :key="transaction.id" />
-          <v-divider :key="transaction.title"></v-divider>
-        </template>
-      </v-list-item-group>
-    </v-list>
+    </v-virtual-scroll>
+    <footer>
+      <v-row>
+        <v-col cols="5"></v-col>
+        <v-col class="text-right">
+          <v-fab-transition>
+            <v-btn
+              color="#dc143c"
+              dark
+              fab
+              @click="createNewTransaction('expense')"
+            >
+              <v-icon>mdi-minus-thick</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-col>
+        <v-col class="text-left mr-">
+          <v-fab-transition>
+            <v-btn
+              color="#228b22"
+              dark
+              fab
+              @click="createNewTransaction('income')"
+            >
+              <v-icon>mdi-plus-thick</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-col>
+      </v-row>
+    </footer>
 
-  <div align="center">
-
-        <v-fab-transition>
-          <v-btn color="#dc143c" dark fab class="mr-10" @click="createNewTransaction('expense')">
-            <v-icon>mdi-minus-thick</v-icon>
-          </v-btn>
-        </v-fab-transition>
-      
-        <v-fab-transition>
-          <v-btn color="#228b22" dark fab @click="createNewTransaction('income')">
-            <v-icon>mdi-plus-thick</v-icon>
-          </v-btn>
-        </v-fab-transition>
-    </div>
+    <v-snackbar :timeout="1500" v-model="snackbar" color="green">
+      {{ snackbarContent }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -62,9 +84,11 @@ import utilsMixin from '../../mixins/utilsMixin'
 // import TransactionService from '../services/TransactionService'
 
 export default {
-  name: 'Transactions',
+  name: 'TransactionList',
   props: {},
   data: () => ({
+    snackbar: false,
+    snackbarContent: 'Task created.',
     filterDrawer: false,
     icon: 'mdi-airplane',
     selectedItem: null,
@@ -76,22 +100,14 @@ export default {
   },
   mixins: [utilsMixin],
   created() {
+    console.log('Transactions --> created')
+    if (this.$store.getters.taskCreated == true) {
+      this.showSnackbar()
+    }
     this.transactionArray = this.$store.getters.transactionArray
-    this.calcTotalAmount()
+    this.totalAmount = this.calcTotalAmount(this.transactionArray)
   },
   methods: {
-    calcTotalAmount() {
-      let positiveAmount = 0
-      let negativeAmount = 0
-      this.transactionArray.forEach((transaction) => {
-        if (transaction.isPositive) {
-          positiveAmount += transaction.amount
-        } else {
-          negativeAmount += transaction.amount
-        }
-        this.totalAmount = positiveAmount - negativeAmount
-      })
-    },
     createNewTransaction(moneyType) {
       this.$router.push(`transactions/create/${moneyType}`)
     },
@@ -109,16 +125,28 @@ export default {
       console.log('filterDrawer')
       this.filterDrawer = !this.filterDrawer
     },
+    showSnackbar() {
+      this.snackbar = true
+      this.$store.commit('setTaskCreated', false)
+    },
   },
 }
 </script>
 
 <style scoped>
-/deep/ .v-toolbar__content {
-  padding: 0px !important;
-}
 #totalAmount {
   line-height: 1;
+}
+footer {
+  background-color: #ffffff;
+  position: fixed;
+  bottom: 54px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
+.padding-zero {
+  padding: 0px;
 }
 
 .income {
@@ -131,5 +159,14 @@ export default {
 
 .neutral {
   color: #696969;
+}
+
+.add-btn {
+  size: 20px;
+  float: right;
+}
+
+/deep/ .v-toolbar__content {
+  padding: 0px !important;
 }
 </style>

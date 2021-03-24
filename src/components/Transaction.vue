@@ -2,7 +2,7 @@
   <v-list-item class="list-item" @click="showDetailsView()">
     <v-list-item-avatar>
       <v-icon class="grey lighten-1" dark>
-        {{ transaction.categoryIcon }}
+        {{ transaction.category.icon }}
       </v-icon>
     </v-list-item-avatar>
     <v-list-item-content>
@@ -65,4 +65,12 @@ export default {
 .expense {
   color: #DC143C
 }
+.padding-zero {
+  padding: 0px;
+}
+
+.list-item {
+  padding:0
+}
+
 </style>
