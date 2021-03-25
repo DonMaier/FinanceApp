@@ -5,6 +5,7 @@ import TransactionDetails from "../views/Transaction/TransactionDetails";
 import TransactionGenerator from "../views/Transaction/TransactionGenerator";
 import Summary from "../views/Summary.vue";
 import Settings from "../views/SettingsView/Settings.vue";
+import Language from "../views/SettingsView/Language.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
   { path: "/transaction/details/:id", component: TransactionDetails },
   { path: "/summary", component: Summary },
   { path: "/settings", component: Settings },
+  { path: "/settings/language", component: Language }
 ];
 
 const router = new VueRouter({

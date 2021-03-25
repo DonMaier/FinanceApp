@@ -42,7 +42,6 @@
     </v-virtual-scroll>
     <footer>
       <v-row>
-        <v-col cols="5"></v-col>
         <v-col class="text-right">
           <v-fab-transition>
             <v-btn
@@ -91,7 +90,6 @@ export default {
     snackbarContent: 'Task created.',
     filterDrawer: false,
     icon: 'mdi-airplane',
-    selectedItem: null,
     totalAmount: 0,
   }),
   components: {
@@ -141,6 +139,7 @@ footer {
   background-color: #ffffff;
   position: fixed;
   bottom: 54px;
+  padding-top: 5px;
   padding-bottom: 5px;
   width: 100%;
 }

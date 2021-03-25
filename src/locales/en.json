@@ -10,6 +10,14 @@
     "tab_summary": "Summary",
     "tab_settings": "Settings"
   },
+  "settings": {
+    "lbl_general" : "GENERAL",
+    "lbl_choose_language": "Choose language",
+    "language" : {
+      "lbl_german": "Germany (German)",
+      "lbl_english": "Great Britain (English)"
+    }
+  },
   "transaction": {
     "lbl_transaction": "Transaction",
     "lbl_income": "Income",
