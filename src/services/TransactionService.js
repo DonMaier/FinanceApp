@@ -10,5 +10,10 @@ export default class TransactionService {
     store.commit('addTransaction', transaction);
     store.commit('setTaskCreated', true);
   }
+
+  removeTransaction(transactionId) {
+    // Service remove Transaction
+    store.commit('removeTransaction', transactionId);
+  }
 }
 

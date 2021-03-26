@@ -33,16 +33,17 @@
       :items="transactionArray"
       class="padding-zero"
     >
-
       <template v-slot:default="{ item }">
         <Transaction :transaction="item" :key="item.title" />
+
         <v-divider :key="'divider-' + item.title"></v-divider>
       </template>
-
     </v-virtual-scroll>
+
     <footer>
       <v-row>
-        <v-col class="text-right">
+        <v-col></v-col>
+        <v-col class="pr-0">
           <v-fab-transition>
             <v-btn
               color="#dc143c"
@@ -54,7 +55,7 @@
             </v-btn>
           </v-fab-transition>
         </v-col>
-        <v-col class="text-left mr-">
+        <v-col class="pl-0">
           <v-fab-transition>
             <v-btn
               color="#228b22"
@@ -66,6 +67,7 @@
             </v-btn>
           </v-fab-transition>
         </v-col>
+        <v-col></v-col>
       </v-row>
     </footer>
 

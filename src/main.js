@@ -5,6 +5,9 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import { store } from "./store/store";
 import i18n from "./i18n";
+
+
+
 Vue.config.productionTip = false;
 
 new Vue({
@@ -14,3 +17,4 @@ new Vue({
   i18n,
   render: (h) => h(App),
 }).$mount("#app");
+
