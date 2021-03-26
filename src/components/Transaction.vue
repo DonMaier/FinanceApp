@@ -3,7 +3,7 @@
     <!-- <v-list-item class="list-item" @click="showDetailsView()"> -->
 
     <swiper-slide id="transition.id">
-      <v-list-item>
+      <v-list-item @click="showDetailsView()">
         <v-list-item-avatar>
           <v-icon class="grey lighten-1" dark>
             {{ transaction.category.icon }}
