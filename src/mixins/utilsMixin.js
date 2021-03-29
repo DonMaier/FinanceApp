@@ -25,4 +25,24 @@ export default {
       return totalAmount;
     }
   },
+  getTransactionFieldRules() {
+    return [
+      (v) => !!v || 'name of transaction is required!',
+      (v) =>
+        (v && v.length <= 20) ||
+        'Name of Transaction must be less than 20 characters',
+    ];
+  },
+  getAmountFieldRules() {
+    return [
+      (v) => !!v || 'Amount is required!',
+      (v) => (v && v.length <= 7) || 'Amount must be less than 7 digits!',
+    ];
+  },
+  validateTransactionForm(name, amount) {
+      if (name == '' || amount == '') {
+        return false;
+      } 
+        return true;
+  }
 }

@@ -29,6 +29,7 @@
   },
   "transactionGenerator": {
     "lbl_title": "New Transaction",
-    "lbl_amount": "Betrag"
+    "lbl_amount": "Amount",
+    "placeholder_notes": "No Notes available."
   }
 }

@@ -9,11 +9,14 @@
             </v-btn>
           </v-col>
           <v-col>
-            <v-toolbar-title v-if="title">
-              {{ title }}
-            </v-toolbar-title>
-            <v-toolbar-title v-else>
-              {{ $t('transactionGenerator.lbl_title') }}
+            <!-- <v-toolbar-title v-if="name">
+              {{ name }}
+            </v-toolbar-title> -->
+            <v-toolbar-title>
+              <span class="subtitle-1">
+{{ $t('transactionGenerator.lbl_name') }}
+              </span>
+              
             </v-toolbar-title>
           </v-col>
           <v-col></v-col>
@@ -26,7 +29,7 @@
           autofocus
           outlined
           clearable
-          v-model="title"
+          v-model="name"
           :counter="20"
           :rules="transactionFieldRules"
           label="Transaction"
@@ -74,7 +77,7 @@
                 {{ category.icon }}
               </v-icon>
               <br />
-              <span class="caption">{{ category.title }}</span>
+              <span class="caption">{{ category.name }}</span>
             </div>
           </v-col>
           <v-col style="text-align: center;" cols="4">
@@ -87,12 +90,14 @@
 </template>
 
 <script>
+import utilsMixin from '../../mixins/utilsMixin'
 import TransactionService from '../../services/TransactionService'
 const transactionService = new TransactionService()
 
 export default {
   name: 'TransactionGenerator',
   props: {},
+  mixins:[utilsMixin],
   components: {
     // Home,
   },
@@ -101,7 +106,7 @@ export default {
       moneyType: '',
       isValid: false,
       createdAt: null,
-      title: '',
+      name: '',
       amount: '',
       category: '',
       notes: '',
@@ -109,16 +114,8 @@ export default {
       categoryArray: [],
       created_at: new Date().toString(),
       valid: false,
-      transactionFieldRules: [
-        (v) => !!v || 'Title of transaction is required!',
-        (v) =>
-          (v && v.length <= 20) ||
-          'Name of Transaction must be less than 20 characters',
-      ],
-      amountFieldRules: [
-        (v) => !!v || 'Amount is required!',
-        (v) => (v && v.length <= 7) || 'Amount must be less than 7 digits!',
-      ],
+      transactionFieldRules: utilsMixin.getTransactionFieldRules(),
+      amountFieldRules: utilsMixin.getAmountFieldRules(),
     }
   },
   created() {
@@ -141,18 +138,14 @@ export default {
       this.$refs.form.reset()
     },
     validateForm() {
-      if (this.title == '' || this.amount == '') {
-        this.isValid = false
-      } else {
-        this.isValid = true
-      }
+     this.isValid = utilsMixin.validateTransactionForm(this.name, this.amount);
     },
     setFocusOnAmount() {
       this.$refs.amount.focus()
     },
     createTransaction(categoryId) {
       let transaction = new Object()
-      transaction.title = this.title
+      transaction.name = this.name
       transaction.isPositive = this.isPositive
       transaction.amount = parseFloat(this.amount)
       transaction.created_at = new Date()
@@ -177,9 +170,12 @@ export default {
       }
 
       transaction.notes = this.notes
-      transactionService.createTransaction(transaction)
+      let result = transactionService.createTransaction(transaction)
+      // wenn keine Fehler in POST, dann commit store --> EVTL über dispatch.ACTION in STORE, anstatt im Service durchführen?!
+      console.log(result);
+      this.$store.commit('addTransaction', transaction)
+      this.$store.commit('setTaskCreated', true)
       this.$refs.form.reset()
-
       this.$router.go(-1)
     },
   },

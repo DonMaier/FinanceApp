@@ -6,14 +6,15 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     localeDateString: 'de-DE',
+    totalAmount: 0,
     transactionArray: [
       {
         id: 1,
-        title: 'Gehalt BMW',
+        name: 'Gehalt BMW',
         amount: 135.5,
         category: {
           id: 1,
-          title: 'home',
+          name: 'home',
           icon: 'mdi-home',
         },
         notes: 'notes blabla',
@@ -22,11 +23,11 @@ export const store = new Vuex.Store({
       },
       {
         id: 2,
-        title: 'Auto',
+        name: 'Auto',
         amount: 30,
         category: {
           id: 2,
-          title: 'car',
+          name: 'car',
           icon: 'mdi-car',
         },
         notes: '',
@@ -35,11 +36,11 @@ export const store = new Vuex.Store({
       },
       {
         id: 3,
-        title: 'Döner Kebap',
+        name: 'Döner Kebap',
         amount: 7,
         category: {
           id: 3,
-          title: 'food',
+          name: 'food',
           icon: 'mdi-food',
         },
         notes: '',
@@ -48,11 +49,11 @@ export const store = new Vuex.Store({
       },
       {
         id: 4,
-        title: 'Chinesisch',
+        name: 'Chinesisch',
         amount: 10,
         category: {
           id: 3,
-          title: 'food',
+          name: 'food',
           icon: 'mdi-food',
         },
         notes: '',
@@ -61,11 +62,63 @@ export const store = new Vuex.Store({
       },
       {
         id: 5,
-        title: 'Red Bull',
+        name: 'Red Bull',
         amount: 5.5,
         category: {
           id: 3,
-          title: 'food',
+          name: 'food',
+          icon: 'mdi-food',
+        },
+        notes: '',
+        isPositive: false,
+        created_at: '07.03.2020',
+      },
+      {
+        id: 6,
+        name: 'Chinesisch',
+        amount: 10,
+        category: {
+          id: 3,
+          name: 'food',
+          icon: 'mdi-food',
+        },
+        notes: '',
+        isPositive: false,
+        created_at: '06.03.2020',
+      },
+      {
+        id: 7,
+        name: 'Red Bull',
+        amount: 5.5,
+        category: {
+          id: 3,
+          name: 'food',
+          icon: 'mdi-food',
+        },
+        notes: '',
+        isPositive: false,
+        created_at: '07.03.2020',
+      },
+      {
+        id: 9,
+        name: 'Chinesisch',
+        amount: 10,
+        category: {
+          id: 3,
+          name: 'food',
+          icon: 'mdi-food',
+        },
+        notes: '',
+        isPositive: false,
+        created_at: '06.03.2020',
+      },
+      {
+        id: 10,
+        name: 'Red Bull',
+        amount: 5.5,
+        category: {
+          id: 3,
+          name: 'food',
           icon: 'mdi-food',
         },
         notes: '',
@@ -75,7 +128,7 @@ export const store = new Vuex.Store({
     ],
     selectedTransaction: {
       id: 0,
-      title: '',
+      name: '',
       amount: 0,
       category: '',
       categoryIcon: '',
@@ -85,64 +138,59 @@ export const store = new Vuex.Store({
     posCategoryArray: [
       {
         id: 1,
-        title: 'Savings',
+        name: 'Savings',
         icon: 'mdi-home',
       },
       {
         id: 2,
-        title: 'car',
+        name: 'car',
         icon: 'mdi-car',
       },
       {
         id: 3,
-        title: 'food',
+        name: 'food',
         icon: 'mdi-food',
       },
       {
         id: 4,
-        title: 'transportation',
+        name: 'transportation',
         icon: 'mdi-train-car',
       },
-      // {
-      //   id: 11,
-      //   title: 'phone',
-      //   icon: 'mdi-cellphone'
-      // }
     ],
     negCategoryArray: [
       {
         id: 1,
-        title: 'home',
+        name: 'home',
         icon: 'mdi-home',
       },
       {
         id: 2,
-        title: 'car',
+        name: 'car',
         icon: 'mdi-car',
       },
       {
         id: 3,
-        title: 'food',
+        name: 'food',
         icon: 'mdi-food',
       },
       {
         id: 4,
-        title: 'transportation',
+        name: 'transportation',
         icon: 'mdi-train-car',
       },
       {
         id: 5,
-        title: 'dinner',
+        name: 'dinner',
         icon: 'mdi-silverware-fork-knife',
       },
       {
         id: 6,
-        title: 'enternainment',
+        name: 'enternainment',
         icon: 'mdi-theater',
       },
       {
         id: 7,
-        title: 'clothes',
+        name: 'clothes',
         icon: 'mdi-tshirt-crew',
       },
     ],
@@ -155,9 +203,20 @@ export const store = new Vuex.Store({
     setTransactionArray(state, transactionArray) {
       state.transActionArray = transactionArray
     },
+    updateTransaction(state, transaction) {
+      var indexOfUpdateObject = state.transactionArray
+      .map((transaction) => transaction.id)
+      .indexOf(transaction.id);
+
+      state.transactionArray[indexOfUpdateObject].name = transaction.name;
+      state.transactionArray[indexOfUpdateObject].amount = transaction.amount;
+      state.transactionArray[indexOfUpdateObject].notes = transaction.notes; 
+    },
     removeTransaction(state, transactionId) {
-      var removeIndex = state.transactionArray.map((transaction) => transaction.id).indexOf(transactionId)
-      ~removeIndex && state.transactionArray.splice(removeIndex, 1);
+      var removeIndex = state.transactionArray
+        .map((transaction) => transaction.id)
+        .indexOf(transactionId)
+      ~removeIndex && state.transactionArray.splice(removeIndex, 1)
     },
     setSelectedTransaction(state, selectedTransaction) {
       state.selectedTransaction = selectedTransaction
@@ -172,8 +231,29 @@ export const store = new Vuex.Store({
       state.taskCreated = bool
     },
   },
+  actions: {
+    addTransaction() {
+      this.commit('addTransaction');
+    }
+  },
   getters: {
     localeDateString: (state) => state.localeDateString,
+    totalAmount: state => {
+      console.log(state.transactionArray)
+      let positiveAmount = 0
+      let negativeAmount = 0
+      let totalAmount = 0
+      state.transactionArray.forEach((transaction) => {
+        // console.log(transaction.amount);
+        if (transaction.isPositive) {
+          positiveAmount += transaction.amount
+        } else {
+          negativeAmount += transaction.amount
+        }
+        totalAmount = positiveAmount - negativeAmount
+      })
+      return totalAmount
+    },
     transactionArray: (state) => state.transactionArray,
     selectedTransaction: (state) => state.selectedTransaction,
     posCategoryArray: (state) => state.posCategoryArray,

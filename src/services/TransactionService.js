@@ -1,19 +1,24 @@
 
-import { store } from "../store/store";
+// import { store } from "../store/store";
 
 export default class TransactionService {
   
   createTransaction(transaction) {
-    console.log('TransactionService: addTransaction');
+    console.log('TransactionService: addTransaction: ', transaction);
     // HttpService POST und databaseID in transaction object speichern
     // transaction.id = HTTP.POST.RESPONSE.ID
-    store.commit('addTransaction', transaction);
-    store.commit('setTaskCreated', true);
+    
+  }
+
+  updateTransaction(transaction) {
+    console.log('TransactionService: updateTransaction: ', transaction);
+    // transaction.id = HTTP.POST.RESPONSE.ID
+    
   }
 
   removeTransaction(transactionId) {
     // Service remove Transaction
-    store.commit('removeTransaction', transactionId);
+    console.log('TransactionService: removeTransaction with id: ', transactionId);
   }
 }
 

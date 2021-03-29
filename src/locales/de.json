@@ -28,7 +28,8 @@
         "lbl_total_amount": "Guthaben"
     },
     "transactionGenerator": {
-      "lbl_title": "Neue Transaktion",
-      "lbl_amount": "Betrag"
+      "lbl_name": "Neue Transaktion",
+      "lbl_amount": "Betrag",
+      "placeholder_notes": "Keine Notizen vorhanden."
     }
   }

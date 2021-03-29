@@ -1,25 +1,30 @@
 <template>
-  <swiper ref="mySwiper-{{transaction.id}}" class="swiper" @slideChangeTransitionEnd="removeItem(transaction.id)">
+  <swiper
+    ref="mySwiper-{{source.id}}"
+    class="swiper"
+    :options= "{ allowSlidePrev: false}"
+    @slideChangeTransitionEnd="removeItem(source.id)"
+  >
     <!-- <v-list-item class="list-item" @click="showDetailsView()"> -->
 
-    <swiper-slide id="transition.id">
-      <v-list-item @click="showDetailsView()">
+    <swiper-slide id="transaction.id">
+      <v-list-item @click="showDetailsView()" class="list-item">
         <v-list-item-avatar>
           <v-icon class="grey lighten-1" dark>
-            {{ transaction.category.icon }}
+            {{ source.category.icon }}
           </v-icon>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title v-text="transaction.title"></v-list-item-title>
+          <v-list-item-title v-text="source.name"></v-list-item-title>
           <v-list-item-subtitle>
-            {{ transaction.created_at }}
+            {{ source.created_at }}
           </v-list-item-subtitle>
-        </v-list-item-content>
+        </v-list-item-content> 
         <v-list-item-action>
           <v-list-item-title
-            v-text="formatFloatToEuroCurrency(transaction.amount)"
+            v-text="formatFloatToEuroCurrency(source.amount)"
           ></v-list-item-title>
-          <v-list-item-title v-if="transaction.isPositive" class="income">
+          <v-list-item-title v-if="source.isPositive" class="income">
             {{ $t('transaction.lbl_income') }}
           </v-list-item-title>
           <v-list-item-title v-else class="expense">
@@ -30,8 +35,13 @@
     </swiper-slide>
     <swiper-slide>
       <v-list-item class="pl-0 pr-0">
-        <v-col class="text-right del-item">Delete</v-col>
+        <v-col class="text-right del-item">
+          <v-icon>mdi-delete</v-icon>
+          Delete
+        </v-col>
+    
       </v-list-item>
+       
     </swiper-slide>
   </swiper>
 </template>
@@ -39,19 +49,20 @@
 <script>
 import utilsMixin from '../mixins/utilsMixin'
 import TransactionService from '../services/TransactionService'
-const transactionService = new TransactionService();
+const transactionService = new TransactionService()
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 
 export default {
   name: 'Transaction',
   props: {
-    transaction: {
-      id: Number,
-      title: String,
-      amount: Number,
+      source: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
     },
-  },
   components: {
     Swiper,
     SwiperSlide,
@@ -63,13 +74,12 @@ export default {
   },
   mixins: [utilsMixin],
   data: () => ({}),
-  created() {
-    
-  },
+  created() {},
+  utilsMixin:[utilsMixin],
   methods: {
     showDetailsView() {
-      this.$store.commit('setSelectedTransaction', this.transaction)
-      this.$router.push(`transaction/details/${this.transaction.id}`)
+      this.$store.commit('setSelectedTransaction', this.source)
+      this.$router.push(`transaction/details/${this.source.id}`)
       // this.$router.push('summary');
     },
     isPositive(transaction) {
@@ -82,15 +92,18 @@ export default {
       console.log('deleteSection: ', id)
     },
     removeItem(transactionId) {
-      transactionService.removeTransaction(transactionId);
-    }
+      transactionService.removeTransaction(transactionId)
+      this.$store.commit('removeTransaction', transactionId);
+    },
   },
 }
 </script>
 
 <style scoped>
 .list-item {
-  border-bottom: 1px;
+  border-bottom: 1px solid lightgrey;
+  /* background-color: blue; */
+  padding-right: 20px;
 }
 
 .income {
@@ -104,15 +117,13 @@ export default {
   padding: 0px;
 }
 
-.list-item {
-  padding: 0;
-}
+
 
 .del-item {
   background-color: red;
-  color:white;
+  color: white;
   height: 100%;
   width: 100%;
+  opacity: 0.75;
 }
-
 </style>

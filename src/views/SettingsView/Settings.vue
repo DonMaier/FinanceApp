@@ -18,7 +18,7 @@
       <v-list-item-group
         color="primary"
       >
-      <v-list-item class="pl-0 pr-0" @click="showView('language')">
+      <v-list-item  @click="showView('language')">
          
         <v-list-item-content>
           <v-list-item-title>{{ $t('settings.lbl_choose_language') }}</v-list-item-title>
